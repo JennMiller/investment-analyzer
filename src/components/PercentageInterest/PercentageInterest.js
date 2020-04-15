@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import {
-  Select,
-  Label,
-  Input,
-  mediaQueries,
-  Flex,
-  Text,
-} from "pcln-design-system";
+import { Select, Label, Input, Flex } from "pcln-design-system";
 
 const ColumnFlex = styled(Flex)`
   flex-direction: column;
