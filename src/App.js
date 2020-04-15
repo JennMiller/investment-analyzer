@@ -1,20 +1,28 @@
 import React from "react";
-import PercentageInterest from "./components/PercentageInterest";
 import styled from "styled-components";
-import { Heading, ThemeProvider } from "pcln-design-system";
+import { ThemeProvider, getPaletteColor } from "pcln-design-system";
+import Home from './components/Home';
 
 const Container = styled(ThemeProvider)`
+  position: relative;
+  min-height: 100vh;
+  background: ${getPaletteColor("background.lightest")};
+`;
+
+const MainContent = styled.main`
   display: flex;
-  width: 100%;
   align-items: center;
-  flex-direction: column;
+  padding: 90px 10% 0;
+  color: ${getPaletteColor("text.base")};
+  background: ${getPaletteColor("background.lightest")};
 `;
 
 function App() {
   return (
     <Container>
-      <Heading.h1>Simple Interest Calculator</Heading.h1>
-      <PercentageInterest />
+      <MainContent>
+        <Home />
+      </MainContent>
     </Container>
   );
 }

@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { Select, Label, Input } from "pcln-design-system";
+import {
+  Select,
+  Label,
+  Input,
+  mediaQueries,
+  Flex,
+  Text,
+} from "pcln-design-system";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
+const ColumnFlex = styled(Flex)`
   flex-direction: column;
+`;
+
+const Container = styled(Flex)`
+  align-items: center;
+  justify-content: center;
   font-size: 30px;
+  width: 100%;
 
   label {
     margin: 10px 0 5px;
@@ -15,13 +26,18 @@ const Container = styled.div`
   }
 `;
 
+const InputsContainer = styled(ColumnFlex)`
+  margin-right: 15px;
+`;
+
 const StyledInterest = styled.div`
   color: ${({ interest }) =>
     interest === 0 ? "black" : interest > 0 ? "green" : "red"};
 `;
 
-const StyledSelect = styled(Select)`
-  /* width: 100px; */
+const ComputedDataContainer = styled(Flex)`
+  flex-direction: column;
+  font-size: ${themeGet("fontSizes.3")}px;
 `;
 
 function PercentageInterest() {
@@ -40,36 +56,39 @@ function PercentageInterest() {
 
   return (
     <Container>
-      <Label htmlFor="currency">Currency</Label>
-      <StyledSelect name="currency">
-        <option value="USD">USD</option>
-        <option value="CAD">CAD</option>
-      </StyledSelect>
+      <InputsContainer>
+        <Label htmlFor="currency">Currency</Label>
+        <Select name="currency">
+          <option value="USD">USD</option>
+          <option value="CAD">CAD</option>
+        </Select>
 
-      <Label htmlFor="buy" autoHide>
-        Buy at
-      </Label>
-      <Input
-        id="buy"
-        name="buy"
-        type="number"
-        value={buy || ""}
-        onChange={(event) => updateState(setBuy, event)}
-      />
+        <Label htmlFor="buy" autoHide>
+          Buy at
+        </Label>
+        <Input
+          id="buy"
+          name="buy"
+          type="number"
+          value={buy || ""}
+          onChange={(event) => updateState(setBuy, event)}
+        />
 
-      <Label autoHide>Sell at</Label>
-      <Input
-        id="sell"
-        name="sell"
-        type="number"
-        value={sell || ""}
-        onChange={(event) => updateState(setSell, event)}
-      />
-
-      <div>
-        Interest:
-        <StyledInterest interest={interest}>{interest}%</StyledInterest>
-      </div>
+        <Label autoHide>Sell at</Label>
+        <Input
+          id="sell"
+          name="sell"
+          type="number"
+          value={sell || ""}
+          onChange={(event) => updateState(setSell, event)}
+        />
+      </InputsContainer>
+      <ComputedDataContainer>
+        <Flex>
+          Interest:
+          <StyledInterest interest={interest}>{interest}%</StyledInterest>
+        </Flex>
+      </ComputedDataContainer>
     </Container>
   );
 }
