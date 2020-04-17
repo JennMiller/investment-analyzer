@@ -1,7 +1,7 @@
-import React from "react";
-import PercentageInterest from "../PercentageInterest";
-import { Heading, Flex } from "pcln-design-system";
-import styled from "styled-components";
+import React from 'react';
+import PercentageInterest from '../PercentageInterest';
+import { Heading, Flex } from 'pcln-design-system';
+import styled from 'styled-components';
 
 const Container = styled(Flex)`
   flex-direction: column;

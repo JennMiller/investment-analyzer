@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
-import { Select, Label, Input, Flex } from "pcln-design-system";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { themeGet } from '@styled-system/theme-get';
+import { Select, Label, Input, Flex } from 'pcln-design-system';
 
 const ColumnFlex = styled(Flex)`
   flex-direction: column;
@@ -15,7 +15,7 @@ const Container = styled(Flex)`
 
   label {
     margin: 10px 0 5px;
-    font-size: ${themeGet("fontSizes.2")}px;
+    font-size: ${themeGet('fontSizes.2')}px;
   }
 `;
 
@@ -25,12 +25,12 @@ const InputsContainer = styled(ColumnFlex)`
 
 const StyledInterest = styled.div`
   color: ${({ interest }) =>
-    interest === 0 ? "black" : interest > 0 ? "green" : "red"};
+    interest === 0 ? 'black' : interest > 0 ? 'green' : 'red'};
 `;
 
 const ComputedDataContainer = styled(Flex)`
   flex-direction: column;
-  font-size: ${themeGet("fontSizes.3")}px;
+  font-size: ${themeGet('fontSizes.3')}px;
 `;
 
 function PercentageInterest() {
@@ -63,7 +63,7 @@ function PercentageInterest() {
           id="buy"
           name="buy"
           type="number"
-          value={buy || ""}
+          value={buy || ''}
           onChange={(event) => updateState(setBuy, event)}
         />
 
@@ -72,7 +72,7 @@ function PercentageInterest() {
           id="sell"
           name="sell"
           type="number"
-          value={sell || ""}
+          value={sell || ''}
           onChange={(event) => updateState(setSell, event)}
         />
       </InputsContainer>
