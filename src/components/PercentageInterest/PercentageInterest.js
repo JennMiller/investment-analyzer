@@ -66,7 +66,7 @@ function PercentageInterest() {
       setTotalBuy(buy * numOfShares);
       setTotalSell((buy * newInterestRate + Number(buy)) * numOfShares);
     }
-  }, [buy, sell]);
+  }, [buy, sell, numOfShares]);
 
   const updateState = (setState, event) => {
     setState(event.target.value);
@@ -113,6 +113,7 @@ function PercentageInterest() {
         />
       </InputsContainer>
       <ComputedDataContainer>
+        <Flex>USD to CAD: ${currencyRate}</Flex>
         <Flex>Buy Price: ${totalBuy}</Flex>
         <Flex>Sell Price: ${totalSell}</Flex>
         <Flex>
