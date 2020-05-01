@@ -1,5 +1,5 @@
 import React from 'react';
-import PercentageInterest from '../PercentageInterest';
+import InterestCalculator from '../InterestCalculator';
 import { Heading, Flex } from 'pcln-design-system';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ function Home() {
   return (
     <Container>
       <Heading.h1>Simple Interest Calculator</Heading.h1>
-      <PercentageInterest />
+      <InterestCalculator />
     </Container>
   );
 }

@@ -36,10 +36,11 @@ const ComputedDataContainer = styled(Flex)`
   font-size: ${themeGet('fontSizes.3')}px;
 `;
 
-function PercentageInterest() {
+function InterestCalculator() {
   const [buy, setBuy] = useState(0);
   const [sell, setSell] = useState(0);
-  const [interest, setInterest] = useState(0);
+  const [percentageInterest, setPercentageInterest] = useState(0);
+  const [dollarInterest, setDollarInterest] = useState(0);
   const [currency, setCurrency] = useState('USD');
   const [currencyRate, setCurrencyRate] = useState(1);
   const [totalBuy, setTotalBuy] = useState(0);
@@ -56,15 +57,18 @@ function PercentageInterest() {
 
   useEffect(() => {
     if (!buy || !sell) {
-      setInterest(0);
+      setPercentageInterest(0);
       setTotalBuy(0);
       setTotalSell(0);
     } else {
       const newInterestRate = (sell - buy) / buy;
+      const totalBuy = buy * numOfShares;
+      const totalSell = (buy * newInterestRate + Number(buy)) * numOfShares;
 
-      setInterest((newInterestRate * 100).toFixed(2));
-      setTotalBuy(buy * numOfShares);
-      setTotalSell((buy * newInterestRate + Number(buy)) * numOfShares);
+      setPercentageInterest((newInterestRate * 100).toFixed(2));
+      setDollarInterest(totalSell - totalBuy);
+      setTotalBuy(totalBuy);
+      setTotalSell(totalSell);
     }
   }, [buy, sell, numOfShares]);
 
@@ -89,7 +93,7 @@ function PercentageInterest() {
         <Input
           id="shares"
           name="shares"
-          type="text    "
+          type="text"
           value={numOfShares}
           onChange={(event) => updateState(setNumOfShares, event)}
         />
@@ -117,12 +121,20 @@ function PercentageInterest() {
         <Flex>Buy Price: ${totalBuy}</Flex>
         <Flex>Sell Price: ${totalSell}</Flex>
         <Flex>
-          Interest:
-          <StyledInterest interest={interest}>{interest}%</StyledInterest>
+          Interest $:
+          <StyledInterest interest={dollarInterest}>
+            {dollarInterest}
+          </StyledInterest>
+        </Flex>
+        <Flex>
+          Interest %:
+          <StyledInterest interest={percentageInterest}>
+            {percentageInterest}%
+          </StyledInterest>
         </Flex>
       </ComputedDataContainer>
     </Container>
   );
 }
 
-export default PercentageInterest;
+export default InterestCalculator;
