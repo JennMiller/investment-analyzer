@@ -36,6 +36,8 @@ const ComputedDataContainer = styled(Flex)`
   font-size: ${themeGet('fontSizes.3')}px;
 `;
 
+const InterestContainer = styled(Flex)``;
+
 function InterestCalculator() {
   const [buy, setBuy] = useState(0);
   const [sell, setSell] = useState(0);
@@ -120,18 +122,14 @@ function InterestCalculator() {
         <Flex>USD to CAD: ${currencyRate}</Flex>
         <Flex>Buy Price: ${totalBuy}</Flex>
         <Flex>Sell Price: ${totalSell}</Flex>
-        <Flex>
-          Interest $:
-          <StyledInterest interest={dollarInterest}>
-            {dollarInterest}
-          </StyledInterest>
-        </Flex>
-        <Flex>
-          Interest %:
-          <StyledInterest interest={percentageInterest}>
-            {percentageInterest}%
-          </StyledInterest>
-        </Flex>
+        <InterestContainer>
+          Interest:
+          <Flex>
+            <StyledInterest interest={dollarInterest}>
+              ${dollarInterest} ({percentageInterest}%)
+            </StyledInterest>
+          </Flex>
+        </InterestContainer>
       </ComputedDataContainer>
     </Container>
   );
