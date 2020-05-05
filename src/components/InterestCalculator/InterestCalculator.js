@@ -38,6 +38,10 @@ const ComputedDataContainer = styled(Flex)`
 
 const InterestContainer = styled(Flex)``;
 
+const formatPrice = (price) => {
+  return price.toFixed(2);
+};
+
 function InterestCalculator() {
   const [buy, setBuy] = useState(0);
   const [sell, setSell] = useState(0);
@@ -67,10 +71,10 @@ function InterestCalculator() {
       const totalBuy = buy * numOfShares;
       const totalSell = (buy * newInterestRate + Number(buy)) * numOfShares;
 
-      setPercentageInterest((newInterestRate * 100).toFixed(2));
-      setDollarInterest(totalSell - totalBuy);
-      setTotalBuy(totalBuy);
-      setTotalSell(totalSell);
+      setPercentageInterest(formatPrice(newInterestRate * 100));
+      setDollarInterest(formatPrice(totalSell - totalBuy));
+      setTotalBuy(formatPrice(totalBuy));
+      setTotalSell(formatPrice(totalSell));
     }
   }, [buy, sell, numOfShares]);
 
