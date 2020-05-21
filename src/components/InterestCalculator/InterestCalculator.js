@@ -28,7 +28,7 @@ const InputsContainer = styled(ColumnFlex)`
 const StyledInterest = styled(Flex)`
   margin-left: 4px;
   color: ${({ interest }) =>
-    interest === 0 ? 'black' : interest > 0 ? 'green' : 'red'};
+    interest === 0 ? themeGet('text.base') : interest > 0 ? 'green' : 'red'};
 `;
 
 const ComputedDataContainer = styled(Flex)`
@@ -36,10 +36,19 @@ const ComputedDataContainer = styled(Flex)`
   font-size: ${themeGet('fontSizes.3')}px;
 `;
 
-const InterestContainer = styled(Flex)``;
+const InterestContainer = styled(Flex)`
+  flex-direction: column;
+`;
+
+const InterestInput = styled(Input)`
+  padding: 2px;
+  width: 100px;
+  margin-right: 5px;
+  text-align: center;
+`;
 
 const formatPrice = (price) => {
-  return price.toFixed(2);
+  return Number(price.toFixed(5));
 };
 
 function InterestCalculator() {
@@ -82,6 +91,21 @@ function InterestCalculator() {
     setState(event.target.value);
   };
 
+  const onPercentageInterestChange = (event) => {
+    const newPercentageInterest = Number(event.target.value);
+
+    setPercentageInterest(newPercentageInterest);
+    setSell(formatPrice(buy * (1 + newPercentageInterest / 100)));
+  };
+
+  const onDollarInterestChange = (event) => {
+    const newDollarInterest = Number(event.target.value);
+    const percentageInterest = newDollarInterest / (buy * numOfShares) + 1;
+
+    setDollarInterest(newDollarInterest);
+    setSell(formatPrice(buy * percentageInterest));
+  };
+
   return (
     <Container>
       <InputsContainer>
@@ -99,7 +123,7 @@ function InterestCalculator() {
         <Input
           id="shares"
           name="shares"
-          type="text"
+          type="number"
           value={numOfShares}
           onChange={(event) => updateState(setNumOfShares, event)}
         />
@@ -109,7 +133,7 @@ function InterestCalculator() {
           id="buy"
           name="buy"
           type="number"
-          value={buy}
+          value={buy || ''}
           onChange={(event) => updateState(setBuy, event)}
         />
 
@@ -118,7 +142,7 @@ function InterestCalculator() {
           id="sell"
           name="sell"
           type="number"
-          value={sell}
+          value={sell || ''}
           onChange={(event) => updateState(setSell, event)}
         />
       </InputsContainer>
@@ -128,11 +152,26 @@ function InterestCalculator() {
         <Flex>Sell Price: ${totalSell}</Flex>
         <InterestContainer>
           Interest:
-          <Flex>
-            <StyledInterest interest={dollarInterest}>
-              ${dollarInterest} ({percentageInterest}%)
-            </StyledInterest>
-          </Flex>
+          <StyledInterest interest={dollarInterest}>
+            <InterestInput
+              id="dollarInterest"
+              name="dollarInterest"
+              type="number"
+              value={dollarInterest || ''}
+              onChange={onDollarInterestChange}
+            />
+            $
+          </StyledInterest>
+          <StyledInterest interest={dollarInterest}>
+            <InterestInput
+              id="percentageInterest"
+              name="percentageInterest"
+              type="number"
+              value={percentageInterest || ''}
+              onChange={onPercentageInterestChange}
+            />
+            %
+          </StyledInterest>
         </InterestContainer>
       </ComputedDataContainer>
     </Container>
