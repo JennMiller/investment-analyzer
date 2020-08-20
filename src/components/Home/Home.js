@@ -15,7 +15,7 @@ const Container = styled(Flex)`
 function Home() {
   return (
     <Container>
-      <Heading.h1>Simple Interest Calculator</Heading.h1>
+      <Heading.h1>Investment Analyzer</Heading.h1>
       <InterestCalculator />
     </Container>
   );
