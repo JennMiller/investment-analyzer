@@ -1,7 +1,7 @@
 {
   "name": "simple-interest-calculator",
   "version": "0.1.0",
-  "homepage": "https://enoshanwar.github.io/simple-interest-calculator",
+  "homepage": "https://enoshanwar.github.io/investment-analyzer",
   "private": true,
   "dependencies": {
     "@styled-system/theme-get": "^5.1.2",
