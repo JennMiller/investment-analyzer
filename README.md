@@ -1,3 +1,9 @@
+# Investment Analyzer
+
+React app that helps users plan their investments and examine multiple ways they can reach their desired profit.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
