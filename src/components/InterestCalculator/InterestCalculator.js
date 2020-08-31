@@ -103,7 +103,7 @@ function InterestCalculator() {
     const percentageInterest = newDollarInterest / (buy * numOfShares) + 1;
 
     setDollarInterest(newDollarInterest);
-    setSell(formatPrice(buy * percentageInterest));
+    setSell(buy * percentageInterest);
   };
 
   return (
