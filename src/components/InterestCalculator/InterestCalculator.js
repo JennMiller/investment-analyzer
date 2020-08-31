@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
-import { Select, Label, Input, Flex } from 'pcln-design-system';
+import { Label, Input, Flex } from 'pcln-design-system';
 import config from '../../config';
 import axios from 'axios';
 
@@ -56,7 +56,6 @@ function InterestCalculator() {
   const [sell, setSell] = useState(0);
   const [percentageInterest, setPercentageInterest] = useState(0);
   const [dollarInterest, setDollarInterest] = useState(0);
-  const [currency, setCurrency] = useState('USD');
   const [currencyRate, setCurrencyRate] = useState(1);
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalSell, setTotalSell] = useState(0);
@@ -109,16 +108,6 @@ function InterestCalculator() {
   return (
     <Container>
       <InputsContainer>
-        <Label htmlFor="currency">Currency</Label>
-        <Select
-          name="currency"
-          value={currency}
-          onChange={(event) => updateState(setCurrency, event)}
-        >
-          <option value="USD">USD</option>
-          <option value="CAD">CAD</option>
-        </Select>
-
         <Label htmlFor="shares">Shares</Label>
         <Input
           id="shares"
