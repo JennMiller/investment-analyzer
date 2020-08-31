@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { ThemeProvider, getPaletteColor, Button } from 'pcln-design-system';
 import Home from './components/Home';
 
+const DEFAULT_THEME = 'dark';
+
 const Container = styled(ThemeProvider)`
   position: relative;
   min-height: 100vh;
@@ -43,7 +45,7 @@ const themePalettes = {
 };
 
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(DEFAULT_THEME);
   const isDark = theme === 'dark';
   const switchTheme = () => {
     setTheme(isDark ? 'light' : 'dark');
