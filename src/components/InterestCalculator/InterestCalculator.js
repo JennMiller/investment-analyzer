@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
-import { Label, Input, Flex } from 'pcln-design-system';
+import { Label, Input, Flex, getPaletteColor } from 'pcln-design-system';
 import config from '../../config';
 import axios from 'axios';
+
+const LOCAL_STORAGE_KEY = 'invInfo';
 
 const ColumnFlex = styled(Flex)`
   flex-direction: column;
@@ -28,7 +30,7 @@ const InputsContainer = styled(ColumnFlex)`
 const StyledInterest = styled(Flex)`
   margin-left: 4px;
   color: ${({ interest }) =>
-    interest === 0 ? themeGet('text.base') : interest > 0 ? 'green' : 'red'};
+    interest === 0 ? getPaletteColor('text.base') : interest > 0 ? getPaletteColor('secondary.base') : 'red'};
 `;
 
 const ComputedDataContainer = styled(Flex)`
@@ -51,15 +53,42 @@ const formatPrice = (price) => {
   return Number(price.toFixed(5));
 };
 
+const updateLocalStorage = (localStorageKey, numOfShares, buy, sell) => {
+  const investmentInfo = {
+    numOfShares,
+    buy,
+    sell
+  };
+
+  localStorage.setItem(localStorageKey, JSON.stringify(investmentInfo));
+}
+
+const getNum = (num, defaultNum = 0) => {
+  return Number(num) || defaultNum;
+};
+
+const getStoredInvestmentInfo = (localStorageKey) => {
+  const { numOfShares, buy, sell } = JSON.parse(localStorage.getItem(localStorageKey) || '{}');
+
+  return {
+    initialBuy: getNum(buy),
+    initialSell: getNum(sell),
+    initialNumOfShares: getNum(numOfShares, 1)
+  };
+};
+
+
 function InterestCalculator() {
-  const [buy, setBuy] = useState(0);
-  const [sell, setSell] = useState(0);
+  const { initialBuy, initialSell, initialNumOfShares } = getStoredInvestmentInfo(LOCAL_STORAGE_KEY);
+
+  const [buy, setBuy] = useState(initialBuy);
+  const [sell, setSell] = useState(initialSell);
   const [percentageInterest, setPercentageInterest] = useState(0);
   const [dollarInterest, setDollarInterest] = useState(0);
   const [currencyRate, setCurrencyRate] = useState(1);
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalSell, setTotalSell] = useState(0);
-  const [numOfShares, setNumOfShares] = useState(1);
+  const [numOfShares, setNumOfShares] = useState(initialNumOfShares);
 
   useEffect(() => {
     axios.get(config.currencyExchangeAPI).then(({ data }) => {
@@ -70,6 +99,8 @@ function InterestCalculator() {
   }, []);
 
   useEffect(() => {
+    updateLocalStorage(LOCAL_STORAGE_KEY, numOfShares, buy, sell);
+
     if (!buy || !sell) {
       setPercentageInterest(0);
       setTotalBuy(0);
