@@ -30,16 +30,21 @@ const InputsContainer = styled(ColumnFlex)`
 const StyledInterest = styled(Flex)`
   margin-left: 4px;
   color: ${({ interest }) =>
-    interest === 0 ? getPaletteColor('text.base') : interest > 0 ? getPaletteColor('secondary.base') : 'red'};
+    interest === 0
+      ? getPaletteColor('text.base')
+      : interest > 0
+      ? getPaletteColor('secondary.base')
+      : 'red'};
 `;
 
 const ComputedDataContainer = styled(Flex)`
   flex-direction: column;
-  font-size: ${themeGet('fontSizes.3')}px;
+  font-size: ${themeGet('fontSizes.2')}px;
 `;
 
 const InterestContainer = styled(Flex)`
   flex-direction: column;
+  margin-top: ${themeGet('space.2')}px;
 `;
 
 const InterestInput = styled(Input)`
@@ -47,11 +52,10 @@ const InterestInput = styled(Input)`
   width: 100px;
   margin-right: 5px;
   text-align: center;
+  font-weight: bold;
 `;
 
-const formatPrice = (price) => {
-  return Number(price.toFixed(5));
-};
+const formatPrice = (price) => Number(price.toFixed(5));
 
 const updateLocalStorage = (localStorageKey, numOfShares, buy, sell) => {
   const investmentInfo = {
@@ -61,14 +65,16 @@ const updateLocalStorage = (localStorageKey, numOfShares, buy, sell) => {
   };
 
   localStorage.setItem(localStorageKey, JSON.stringify(investmentInfo));
-}
+};
 
 const getNum = (num, defaultNum = 0) => {
   return Number(num) || defaultNum;
 };
 
 const getStoredInvestmentInfo = (localStorageKey) => {
-  const { numOfShares, buy, sell } = JSON.parse(localStorage.getItem(localStorageKey) || '{}');
+  const { numOfShares, buy, sell } = JSON.parse(
+    localStorage.getItem(localStorageKey) || '{}'
+  );
 
   return {
     initialBuy: getNum(buy),
@@ -77,9 +83,12 @@ const getStoredInvestmentInfo = (localStorageKey) => {
   };
 };
 
-
 function InterestCalculator() {
-  const { initialBuy, initialSell, initialNumOfShares } = getStoredInvestmentInfo(LOCAL_STORAGE_KEY);
+  const {
+    initialBuy,
+    initialSell,
+    initialNumOfShares
+  } = getStoredInvestmentInfo(LOCAL_STORAGE_KEY);
 
   const [buy, setBuy] = useState(initialBuy);
   const [sell, setSell] = useState(initialSell);
