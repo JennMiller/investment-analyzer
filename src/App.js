@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ThemeProvider, getPaletteColor, Button } from 'pcln-design-system';
 import Home from './components/Home';
-
-const DEFAULT_THEME = 'dark';
+import useTheme from './hooks/useTheme';
 
 const Container = styled(ThemeProvider)`
   position: relative;
@@ -26,36 +25,12 @@ const ThemeSwitcher = styled(Button)`
   width: 100px;
 `;
 
-const themePalettes = {
-  dark: {
-    palette: {
-      text: {
-        lightest: '#fff',
-        light: '#fff',
-        base: '#fff'
-      },
-      background: {
-        lightest: '#111'
-      },
-      border: {
-        light: '#fff'
-      }
-    }
-  }
-};
-
 function App() {
-  const [theme, setTheme] = useState(DEFAULT_THEME);
-  const isDark = theme === 'dark';
-  const switchTheme = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
+  const { theme, themeText, toggleTheme } = useTheme();
 
   return (
-    <Container theme={themePalettes[theme]}>
-      <ThemeSwitcher onClick={switchTheme}>
-        {isDark ? 'LIGHT' : 'DARK'}
-      </ThemeSwitcher>
+    <Container theme={theme}>
+      <ThemeSwitcher onClick={toggleTheme}>{themeText}</ThemeSwitcher>
       <MainContent>
         <Home />
       </MainContent>
