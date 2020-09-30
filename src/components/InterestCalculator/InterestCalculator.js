@@ -16,11 +16,15 @@ const Container = styled(Flex)`
   justify-content: center;
   font-size: 30px;
   width: 100%;
+`;
 
-  label {
-    margin: 10px 0 5px;
-    font-size: ${themeGet('fontSizes.2')}px;
-  }
+const StyledLabel = styled(Label)`
+  margin: 10px 0 5px;
+  font-size: ${themeGet('fontSizes.1')}px;
+`;
+
+const StyledInput = styled(Input)`
+  padding: ${themeGet('space.2')}px;
 `;
 
 const InputsContainer = styled(ColumnFlex)`
@@ -29,6 +33,7 @@ const InputsContainer = styled(ColumnFlex)`
 
 const StyledInterest = styled(Flex)`
   margin-left: 4px;
+  align-items: center;
   color: ${({ interest }) =>
     interest === 0
       ? getPaletteColor('text.base')
@@ -47,12 +52,9 @@ const InterestContainer = styled(Flex)`
   margin-top: ${themeGet('space.2')}px;
 `;
 
-const InterestInput = styled(Input)`
-  padding: 2px;
+const InterestInput = styled(StyledInput)`
   width: 100px;
   margin-right: 5px;
-  text-align: center;
-  font-weight: bold;
 `;
 
 const formatPrice = (price) => Number(price.toFixed(5));
@@ -148,8 +150,8 @@ function InterestCalculator() {
   return (
     <Container>
       <InputsContainer>
-        <Label htmlFor="shares">Shares</Label>
-        <Input
+        <StyledLabel htmlFor="shares">Shares</StyledLabel>
+        <StyledInput
           id="shares"
           name="shares"
           type="number"
@@ -157,8 +159,8 @@ function InterestCalculator() {
           onChange={(event) => updateState(setNumOfShares, event)}
         />
 
-        <Label htmlFor="buy">Buy at</Label>
-        <Input
+        <StyledLabel htmlFor="buy">Buy at</StyledLabel>
+        <StyledInput
           id="buy"
           name="buy"
           type="number"
@@ -166,8 +168,8 @@ function InterestCalculator() {
           onChange={(event) => updateState(setBuy, event)}
         />
 
-        <Label>Sell at</Label>
-        <Input
+        <StyledLabel>Sell at</StyledLabel>
+        <StyledInput
           id="sell"
           name="sell"
           type="number"
