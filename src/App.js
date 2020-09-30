@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ThemeProvider, getPaletteColor, Button } from 'pcln-design-system';
+import { ThemeProvider, getPaletteColor } from 'pcln-design-system';
 import Home from './components/Home';
 import useTheme from './hooks/useTheme';
 
@@ -18,19 +18,12 @@ const MainContent = styled.main`
   background: ${getPaletteColor('background.lightest')};
 `;
 
-const ThemeSwitcher = styled(Button)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-`;
-
 function App() {
-  const { theme, themeText, toggleTheme } = useTheme();
+  const { theme, themeToggleButton } = useTheme();
 
   return (
     <Container theme={theme}>
-      <ThemeSwitcher onClick={toggleTheme}>{themeText}</ThemeSwitcher>
+      {themeToggleButton}
       <MainContent>
         <Home />
       </MainContent>
