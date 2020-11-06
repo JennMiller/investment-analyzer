@@ -5,7 +5,9 @@ import Home from './components/Home';
 import useTheme from './hooks/useTheme';
 
 const Container = styled(ThemeProvider)`
-  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   min-height: 100vh;
   background: ${getPaletteColor('background.lightest')};
 `;
@@ -13,7 +15,7 @@ const Container = styled(ThemeProvider)`
 const MainContent = styled.main`
   display: flex;
   align-items: center;
-  padding: 40px 10% 0;
+  padding: 100px 10% 0;
   color: ${getPaletteColor('text.base')};
   background: ${getPaletteColor('background.lightest')};
 `;
