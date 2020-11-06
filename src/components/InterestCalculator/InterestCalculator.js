@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 import { Label, Input, Flex, getPaletteColor } from 'pcln-design-system';
-import config from '../../config';
-import axios from 'axios';
 
 const LOCAL_STORAGE_KEY = 'invInfo';
 
@@ -14,16 +12,16 @@ const ColumnFlex = styled(Flex)`
 const Container = styled(Flex)`
   align-items: center;
   justify-content: center;
-  font-size: 30px;
   width: 100%;
 `;
 
 const StyledLabel = styled(Label)`
   margin: 10px 0 5px;
-  font-size: ${themeGet('fontSizes.1')}px;
+  font-size: ${themeGet('fontSizes.2')}px;
 `;
 
 const StyledInput = styled(Input)`
+  font-size: ${themeGet('fontSizes.2')}px;
   padding: ${themeGet('space.2')}px;
 `;
 
@@ -96,18 +94,10 @@ function InterestCalculator() {
   const [sell, setSell] = useState(initialSell);
   const [percentageInterest, setPercentageInterest] = useState(0);
   const [dollarInterest, setDollarInterest] = useState(0);
-  const [currencyRate, setCurrencyRate] = useState(1);
+
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalSell, setTotalSell] = useState(0);
   const [numOfShares, setNumOfShares] = useState(initialNumOfShares);
-
-  useEffect(() => {
-    axios.get(config.currencyExchangeAPI).then(({ data }) => {
-      if (data) {
-        setCurrencyRate(data.observations.pop().FXUSDCAD.v);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     updateLocalStorage(LOCAL_STORAGE_KEY, numOfShares, buy, sell);
@@ -178,7 +168,6 @@ function InterestCalculator() {
         />
       </InputsContainer>
       <ComputedDataContainer>
-        <Flex>USD to CAD: ${currencyRate}</Flex>
         <Flex>Buy Price: ${totalBuy}</Flex>
         <Flex>Sell Price: ${totalSell}</Flex>
         <InterestContainer>
