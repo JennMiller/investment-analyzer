@@ -1,14 +1,39 @@
-# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
-version: 2.1
+version: 2
 
-orbs:
-  node: circleci/node@4.1
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:14.15.4
+
+jobs:
+  core:
+    <<: *defaults
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm ci
+
+      - run: npm run test:ci
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
 workflows:
-  sample:
+  version: 2
+  core:
     jobs:
-      - node/test:
-          version: '15.1'
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
+      - core:
+          filters:
+            branches:
+              only:
+                - master
