@@ -33,7 +33,3 @@ workflows:
   core:
     jobs:
       - core:
-          filters:
-            branches:
-              only:
-                - master
