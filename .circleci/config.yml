@@ -34,3 +34,13 @@ workflows:
   core:
     jobs:
       - core
+  daily:
+    jobs:
+      - core
+    triggers:
+      - schedule:
+          cron: 0 3 * * *
+          filters:
+            branches:
+              only:
+                - master
