@@ -14,6 +14,7 @@ const themePalettes = {
         lightest: 'rgb(23, 25, 35)'
       },
       border: {
+        lightest: 'rgb(23, 25, 35)',
         light: '#fff'
       }
     }

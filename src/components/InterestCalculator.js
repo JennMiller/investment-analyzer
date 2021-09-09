@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
-import { Label, Input, Flex, getPaletteColor } from 'pcln-design-system';
-import { useStorage } from '../../libs/storage';
+import { Flex, getPaletteColor, Input, Label } from 'pcln-design-system';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import DeleteStockButton from './DeleteStockButton';
 
 const ColumnFlex = styled(Flex)`
   flex-direction: column;
@@ -12,6 +12,7 @@ const Container = styled(Flex)`
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-bottom: ${themeGet('space.4')}px;
 `;
 
 const StyledLabel = styled(Label)`
@@ -26,6 +27,7 @@ const StyledInput = styled(Input)`
 
 const InputsContainer = styled(ColumnFlex)`
   margin-right: 15px;
+  width: 100%;
 `;
 
 const StyledInterest = styled(Flex)`
@@ -54,11 +56,23 @@ const InterestInput = styled(StyledInput)`
   margin-right: 5px;
 `;
 
+const StockName = styled(Flex)`
+  input {
+    border-color: ${getPaletteColor('border.lightest')};
+    font-weight: bold;
+  }
+`;
+
 const formatPrice = (price) => Number(price.toFixed(5));
 
-function InterestCalculator({ index }) {
-  const { getStoredData, updateStoredData } = useStorage();
-  const { initialBuy, initialSell, initialNumOfShares } = getStoredData(index);
+function InterestCalculator({
+  index,
+  getStoredData,
+  updateStoredData,
+  onDeleteButtonClick
+}) {
+  const { initialName, initialBuy, initialSell, initialNumOfShares } =
+    getStoredData(index);
 
   const [buy, setBuy] = useState(initialBuy);
   const [sell, setSell] = useState(initialSell);
@@ -68,9 +82,10 @@ function InterestCalculator({ index }) {
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalSell, setTotalSell] = useState(0);
   const [numOfShares, setNumOfShares] = useState(initialNumOfShares);
+  const [name = '', setName] = useState(initialName);
 
   useEffect(() => {
-    updateStoredData({ index, numOfShares, buy, sell });
+    updateStoredData({ index, name, numOfShares, buy, sell });
 
     if (!buy || !sell) {
       setPercentageInterest(0);
@@ -87,7 +102,7 @@ function InterestCalculator({ index }) {
       setTotalSell(formatPrice(totalSell));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buy, sell, numOfShares]);
+  }, [buy, sell, numOfShares, name]);
 
   const updateState = (setState, event) => {
     setState(event.target.value);
@@ -111,6 +126,17 @@ function InterestCalculator({ index }) {
   return (
     <Container>
       <InputsContainer>
+        <StockName>
+          <StyledInput
+            id="stock-name"
+            name="stock-name"
+            type="text"
+            value={name}
+            placeholder="Enter Name/Ticker"
+            onChange={(event) => updateState(setName, event)}
+          />
+        </StockName>
+
         <StyledLabel htmlFor="shares">Shares</StyledLabel>
         <StyledInput
           id="shares"
@@ -165,6 +191,7 @@ function InterestCalculator({ index }) {
           </StyledInterest>
         </InterestContainer>
       </ComputedDataContainer>
+      {index > 0 && <DeleteStockButton onClick={onDeleteButtonClick} />}
     </Container>
   );
 }

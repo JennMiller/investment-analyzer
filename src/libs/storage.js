@@ -7,7 +7,7 @@ const getNum = (num, defaultNum = 0) => {
   return Number(num) || defaultNum;
 };
 
-const emptyState = { numOfShares: 1, buy: 0, sell: 0 };
+const emptyState = { name: '', numOfShares: 1, buy: 0, sell: 0 };
 
 export const StorageContext = createContext({});
 
@@ -17,18 +17,32 @@ export const StorageProvider = ({ children }) => {
   ]);
 
   const getStoredData = (index) => {
-    const { numOfShares, buy, sell } = storage?.[index] ?? {};
+    const { name, numOfShares, buy, sell } = storage?.[index] ?? {};
     return {
+      initialName: name,
       initialBuy: getNum(buy),
       initialSell: getNum(sell),
       initialNumOfShares: getNum(numOfShares, 1)
     };
   };
 
-  const updateStoredData = ({ index, numOfShares, buy, sell }) => {
+  const addStock = () => {
+    const updatedStorage = [...storage, { ...emptyState }];
+    setStorage(updatedStorage);
+  };
+
+  const deleteStock = (index) => {
+    const updatedStorage = [...storage];
+    updatedStorage.splice(index, 1);
+
+    setStorage(updatedStorage);
+  };
+
+  const updateStoredData = ({ index, name, numOfShares, buy, sell }) => {
     const updatedStorage = [...storage];
 
     updatedStorage[index] = {
+      name,
       numOfShares,
       buy,
       sell
@@ -39,7 +53,13 @@ export const StorageProvider = ({ children }) => {
 
   return (
     <StorageContext.Provider
-      value={{ storage, getStoredData, updateStoredData }}
+      value={{
+        storage,
+        getStoredData,
+        updateStoredData,
+        addStock,
+        deleteStock
+      }}
     >
       {children}
     </StorageContext.Provider>
