@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ThemeProvider, getPaletteColor } from 'pcln-design-system';
 import Home from './components/Home';
 import useTheme from './hooks/useTheme';
+import { StorageProvider } from './libs/storage';
 
 const Container = styled(ThemeProvider)`
   display: flex;
@@ -27,7 +28,9 @@ function App() {
     <Container theme={theme}>
       {themeToggleButton}
       <MainContent>
-        <Home />
+        <StorageProvider>
+          <Home />
+        </StorageProvider>
       </MainContent>
     </Container>
   );
