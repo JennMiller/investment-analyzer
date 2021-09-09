@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 import { Label, Input, Flex, getPaletteColor } from 'pcln-design-system';
-import { getStoredData, updateStoredData } from '../../utils/storedData';
+import { useStorage } from '../../libs/storage';
 
 const ColumnFlex = styled(Flex)`
   flex-direction: column;
@@ -56,8 +56,9 @@ const InterestInput = styled(StyledInput)`
 
 const formatPrice = (price) => Number(price.toFixed(5));
 
-function InterestCalculator() {
-  const { initialBuy, initialSell, initialNumOfShares } = getStoredData();
+function InterestCalculator({ index }) {
+  const { getStoredData, updateStoredData } = useStorage();
+  const { initialBuy, initialSell, initialNumOfShares } = getStoredData(index);
 
   const [buy, setBuy] = useState(initialBuy);
   const [sell, setSell] = useState(initialSell);
@@ -69,7 +70,7 @@ function InterestCalculator() {
   const [numOfShares, setNumOfShares] = useState(initialNumOfShares);
 
   useEffect(() => {
-    updateStoredData(numOfShares, buy, sell);
+    updateStoredData({ index, numOfShares, buy, sell });
 
     if (!buy || !sell) {
       setPercentageInterest(0);
@@ -85,6 +86,7 @@ function InterestCalculator() {
       setTotalBuy(formatPrice(totalBuy));
       setTotalSell(formatPrice(totalSell));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buy, sell, numOfShares]);
 
   const updateState = (setState, event) => {
